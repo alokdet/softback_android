@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/background_color"
+    app:layoutDescription="@xml/activity_main_scene"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/greet_user_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="60dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="Welcome Alok"
+        android:textAlignment="center"
+        android:textColor="?attr/title_text_color"
+        android:textSize="22sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/heading_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="60dp"
+        android:fontFamily="@font/akshar_regular"
+        android:lineHeight="36dp"
+        android:text="TRY THE ALL NEW GRAND THEFT AUTO STYLE WALLPAPERS"
+        android:textAlignment="center"
+        android:textColor="?attr/sub_text_color"
+        android:textSize="36sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/greet_user_view" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_s"
+        android:layout_width="0dp"
+        android:layout_height="360dp"
+        android:src="@drawable/sample_image"
+        app:layout_constraintTop_toBottomOf="@id/heading_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:transitionName="list_transition"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/action_btn" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/action_btn"
+        android:layout_width="100dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/rounded_box"
+        android:backgroundTint="@color/app_theme_color"
+        android:transitionName="actionBtn"
+        app:layout_constraintTop_toBottomOf="@id/image_s"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/actions_two"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="58dp"-->
+<!--        android:background="?attr/background_color"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent">-->
+
+<!--        <androidx.appcompat.widget.AppCompatImageView-->
+<!--            android:id="@+id/one"-->
+<!--            android:layout_width="25dp"-->
+<!--            android:layout_height="25dp"-->
+<!--            android:layout_marginStart="28dp"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            android:src="@drawable/icon_sort"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/search_action"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:tint="?attr/icon_tint" />-->
+
+<!--        <androidx.appcompat.widget.AppCompatImageView-->
+<!--            android:id="@+id/search_action"-->
+<!--            android:layout_width="25dp"-->
+<!--            android:layout_height="25dp"-->
+<!--            android:layout_marginStart="28dp"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            android:src="@drawable/icon_search"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@id/one"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:tint="?attr/icon_tint" />-->
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

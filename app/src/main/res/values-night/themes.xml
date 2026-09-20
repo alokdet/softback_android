@@ -1,0 +1,46 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="DarkTheme.SoftBackgrounds" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryVariant">@color/black</item>
+        <item name="colorOnPrimary">@color/background_light</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/scarlet_red</item>
+        <item name="colorSecondaryVariant">@color/scarlet_red</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="background_color">@color/black</item>
+        <item name="foreground_color">@color/dark_foreground</item>
+        <item name="title_text_color">@color/white</item>
+        <item name="sub_text_color">@android:color/tab_indicator_text</item>
+        <item name="extra_text_color">#C6C6C6</item>
+        <item name="primary_color">#2B2B2B</item>
+        <item name="main_color">#424141</item>
+        <item name="selection_color">@color/android_green</item>
+        <item name="secondary_selection">#343434</item>
+        <item name="icon_tint">#7A7A7A</item>
+        <item name="select_tab_color">@color/black</item>
+        <item name="disable_color">#353535</item>
+        <item name="circular_background_tint">#2B2A2A</item>
+    </style>
+
+    <style name="expanded_title" parent="DarkTheme.SoftBackgrounds">
+        <item name="android:textColor">?attr/title_text_color</item>
+        <item name="fontFamily">@font/roboto_thin</item>
+        <item name="android:layout_marginBottom">30dp</item>
+        <item name="android:textSize">34sp</item>
+    </style>
+    <style name="expanded_title_workspace" parent="DarkTheme.SoftBackgrounds">
+        <item name="android:textColor">?attr/title_text_color</item>
+        <item name="fontFamily">@font/roboto_thin</item>
+        <item name="android:layout_marginBottom">30dp</item>
+        <item name="android:textSize">34sp</item>
+    </style>
+    <style name="collapsed_title" parent="DarkTheme.SoftBackgrounds">
+        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">@font/roboto_thin</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+</resources>

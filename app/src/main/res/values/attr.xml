@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="dark_mode">
+        <attr name="background_color" format="color"/>
+        <attr name="foreground_color" format="color"/>
+        <attr name="toolbar_color" format="color"/>
+        <attr name="title_text_color" format="color"/>
+        <attr name="sub_text_color" format="color"/>
+        <attr name="extra_text_color" format="color"/>
+        <attr name="primary_color" format="color"/>
+        <attr name="main_color" format="color"/>
+        <attr name="selection_color" format="color"/>
+        <attr name="secondary_selection" format="color"/>
+        <attr name="icon_tint" format="color" />
+        <attr name="select_tab_color" format="color" />
+        <attr name="disable_color" format="color" />
+        <attr name="circular_background_tint" format="color" />
+    </declare-styleable>
+</resources>

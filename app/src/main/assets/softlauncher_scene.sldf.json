@@ -1,0 +1,120 @@
+{
+  "format": "SLDF",
+  "version": 1,
+  "scene": {
+    "width": 720,
+    "height": 1650,
+    "nodes": [
+      {
+        "id": "411:3",
+        "type": "rectangle",
+        "name": "Rectangle 234",
+        "x": 150,
+        "y": 267,
+        "width": 420,
+        "height": 200,
+        "rotation": 0,
+        "opacity": 1,
+        "visible": true,
+        "fill": {
+          "type": "solid",
+          "color": {
+            "r": 0.2951924204826355,
+            "g": 0.2951924204826355,
+            "b": 0.2951924204826355
+          },
+          "opacity": 1
+        },
+        "cornerRadius": 0
+      },
+      {
+        "id": "412:5",
+        "type": "rectangle",
+        "name": "Rectangle 235",
+        "x": 150,
+        "y": 525,
+        "width": 420,
+        "height": 200,
+        "rotation": 0,
+        "opacity": 1,
+        "visible": true,
+        "fill": {
+          "type": "solid",
+          "color": {
+            "r": 0.2951924204826355,
+            "g": 0.2951924204826355,
+            "b": 0.2951924204826355
+          },
+          "opacity": 1
+        },
+        "cornerRadius": 0
+      },
+      {
+        "id": "412:6",
+        "type": "rectangle",
+        "name": "Rectangle 236",
+        "x": 150,
+        "y": 783,
+        "width": 174,
+        "height": 200,
+        "rotation": 0,
+        "opacity": 1,
+        "visible": true,
+        "fill": {
+          "type": "solid",
+          "color": {
+            "r": 0.2951924204826355,
+            "g": 0.2951924204826355,
+            "b": 0.2951924204826355
+          },
+          "opacity": 1
+        },
+        "cornerRadius": 0
+      },
+      {
+        "id": "412:7",
+        "type": "rectangle",
+        "name": "Rectangle 237",
+        "x": 396,
+        "y": 783,
+        "width": 174,
+        "height": 200,
+        "rotation": 0,
+        "opacity": 1,
+        "visible": true,
+        "fill": {
+          "type": "solid",
+          "color": {
+            "r": 0.2951924204826355,
+            "g": 0.2951924204826355,
+            "b": 0.2951924204826355
+          },
+          "opacity": 1
+        },
+        "cornerRadius": 0
+      },
+      {
+        "id": "411:4",
+        "type": "ellipse",
+        "name": "Ellipse 2",
+        "x": 248,
+        "y": 1192,
+        "width": 223,
+        "height": 223,
+        "rotation": 0,
+        "opacity": 1,
+        "visible": true,
+        "fill": {
+          "type": "solid",
+          "color": {
+            "r": 0.8509804010391235,
+            "g": 0.8509804010391235,
+            "b": 0.8509804010391235
+          },
+          "opacity": 1
+        },
+        "cornerRadius": 0
+      }
+    ]
+  }
+}
