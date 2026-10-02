@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/date_view"
+            android:id="@+id/designName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="24 December 2024"
@@ -31,7 +31,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/preview"
+            android:id="@+id/designVersion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="lorem"
@@ -42,7 +42,7 @@
             android:maxLines="5"
             android:layout_marginStart="20dp"
             android:fontFamily="@font/roboto_regular"
-            app:layout_constraintTop_toBottomOf="@id/date_view"
+            app:layout_constraintTop_toBottomOf="@id/designName"
             app:layout_constraintStart_toStartOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

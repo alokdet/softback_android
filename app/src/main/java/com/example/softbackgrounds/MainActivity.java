@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,21 +16,28 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.example.softbackgrounds.adapter.DesignAdapter;
+import com.example.softbackgrounds.model.Design;
+import com.example.softbackgrounds.model.DesignSummary;
+import com.example.softbackgrounds.viewmodel.DesignViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DesignAdapter.OnDesignClickListener {
 
     private static final int spanCount = 2;
     private static final int spacing = 42;
 
     private static final boolean includeEdge = true;
-    private LIstAdapter adapter;
-    private List<Model> models;
+    private DesignAdapter adapter;
     private RecyclerView recyclerView;
+    private DesignViewModel viewModel;
 
     private AppCompatButton button;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,24 +66,16 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        button = findViewById(R.id.action_btn);
 
-        models = new ArrayList<>();
-        models.add(new Model("Title of te year", "Description of lorem ipsum ten eofh folk retail pool yes go to ball."));
-        models.add(new Model("Title of te year", "Description of lorem ipsum ten eofh folk retail pool yes go to ball."));
-        models.add(new Model("Title of te year", "Description of lorem ipsum ten eofh folk retail pool yes go to ball."));
-        models.add(new Model("Title of te year", "Description of lorem ipsum ten eofh folk retail pool yes go to ball."));
-        models.add(new Model("Title of te year", "Description of lorem ipsum ten eofh folk retail pool yes go to ball."));
-        models.add(new Model("Title of te year", "Description of lorem ipsum ten eofh folk retail pool yes go to ball."));
-        models.add(new Model("Title of te year", "Description of lorem ipsum ten eofh folk retail pool yes go to ball."));
-        models.add(new Model("Title of te year", "Description of lorem ipsum ten eofh folk retail pool yes go to ball."));
-
-        adapter = new LIstAdapter(models);
+        adapter = new DesignAdapter(this);
 
         recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
 
-        button = findViewById(R.id.action_btn);
+        viewModel = new ViewModelProvider(this).get(DesignViewModel.class);
+        observeDesigns();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,9 +90,54 @@ public class MainActivity extends AppCompatActivity {
 //                    startActivity(fallbackIntent);
 //                }
 
-                Intent intent = new Intent(getApplicationContext(), MainActivity3.class);
+                Intent intent = new Intent(getApplicationContext(), LockActivity.class);
                 startActivity(intent);
             }
+        });
+    }
+
+    private void observeDesigns() {
+        //showLoading();
+        viewModel.getDesigns().observe(this, response -> {
+            //hideLoading();
+            if (response == null) {
+                //showError();
+                Toast.makeText(this, "Unable to load designs.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (response.getDesigns() == null || response.getDesigns().isEmpty()) {
+                //showEmpty();
+                Toast.makeText(this, "Empty!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            //emptyText.setVisibility(View.GONE);
+            //recyclerView.setVisibility(View.VISIBLE);
+            adapter.setDesigns(response.getDesigns());
+        });
+    }
+
+    private void openDesign(Design design) {
+        if (design.getData() == null) {
+            Toast.makeText(this, "Design data is unavailable.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String sldfJson = design.getData().toString();
+
+        Intent intent = new Intent(getApplicationContext(), MainActivity3.class);
+        intent.putExtra("sldf_data", sldfJson);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDesignClick(DesignSummary design) {
+        Toast.makeText(this, "Selected: " + design.getName(), Toast.LENGTH_SHORT).show();
+        viewModel.getDesign(design.getId()).observe(this, completeDesign -> {
+            //hideLoading();
+            if (completeDesign == null) {
+                Toast.makeText(this, "Unable to download design.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            openDesign(completeDesign);
         });
     }
 }

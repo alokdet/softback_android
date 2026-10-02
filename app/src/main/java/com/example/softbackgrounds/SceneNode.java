@@ -10,7 +10,7 @@ public class SceneNode {
     public String type;
     public String name;
 
-    // Position and size in design pixels
+    // Position and size in Figma pixels
     public float x;
     public float y;
     public float width;
@@ -25,8 +25,11 @@ public class SceneNode {
     public float opacity = 1f;
     public boolean visible = true;
 
-    // Solid color
+    // Android color
     public int color;
+
+    // Figma fill
+    public Fill fill;
 
     // Text
     public String text;
@@ -35,10 +38,28 @@ public class SceneNode {
     // Child nodes
     public final List<SceneNode> children = new ArrayList<>();
 
+
     public SceneNode() {
     }
 
+
     public void addChild(SceneNode child) {
         children.add(child);
+    }
+
+
+    public static class Fill {
+
+        public String type;
+        public FillColor color;
+        public float opacity = 1f;
+    }
+
+
+    public static class FillColor {
+
+        public float r;
+        public float g;
+        public float b;
     }
 }
