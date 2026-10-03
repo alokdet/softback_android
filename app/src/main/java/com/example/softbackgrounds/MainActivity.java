@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements DesignAdapter.OnD
 //                    startActivity(fallbackIntent);
 //                }
 
-                Intent intent = new Intent(getApplicationContext(), LockActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MusicTestActivity.class);
                 startActivity(intent);
             }
         });

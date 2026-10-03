@@ -14,6 +14,7 @@ import com.example.softbackgrounds.interaction.InteractionEngine;
 import com.example.softbackgrounds.runtime.SceneRuntime;
 import com.example.softbackgrounds.runtime.SceneTransform;
 import com.example.softbackgrounds.selection.SelectionManager;
+import com.example.softbackgrounds.selection.TransformController;
 
 public class SoftCanvasView extends View implements GestureEngine.Listener {
     private final SceneRenderer renderer;
@@ -22,6 +23,13 @@ public class SoftCanvasView extends View implements GestureEngine.Listener {
     private final GestureDetector gestureDetector;
     private final SceneTransform transform;
     private final SelectionManager selectionManager;
+    private final TransformController transformController;
+
+    private boolean transforming = false;
+    private int activeHandle = TransformController.NONE;
+
+    private float transformStartX;
+    private float transformStartY;
     private Scene scene;
 
     private SceneNode draggedNode;
@@ -37,6 +45,7 @@ public class SoftCanvasView extends View implements GestureEngine.Listener {
         interactionEngine = new InteractionEngine(context);
         gestureDetector = new GestureDetector(context, new GestureEngine(this));
         transform = new SceneTransform();
+        transformController = new TransformController();
 
         selectionManager = new SelectionManager();
         selectionManager.setSelectionListener(node -> {
@@ -98,16 +107,15 @@ public class SoftCanvasView extends View implements GestureEngine.Listener {
     }
 
     private void drawSelection(Canvas canvas, SceneNode node) {
-        if (node == null) {
-            return;
-        }
+        if (node == null) return;
 
-        Paint paint = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(android.graphics.Color.rgb(0, 120, 255));
-        paint.setStyle(android.graphics.Paint.Style.STROKE);
+        canvas.save();
+        runtime.applyParentTransforms(canvas, node);
 
-        paint.setStrokeWidth(2f / transform.getScale());
-        canvas.drawRect(node.x, node.y, node.x + node.width, node.y + node.height, paint);
+        float effectiveScale = transform.getScale() * runtime.getParentWorldScale(node);
+
+        transformController.draw(canvas, node, effectiveScale);
+        canvas.restore();
     }
 
     @Override
@@ -122,12 +130,18 @@ public class SoftCanvasView extends View implements GestureEngine.Listener {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         gestureDetector.onTouchEvent(event);
+
+        if (event.getActionMasked() == MotionEvent.ACTION_UP || event.getActionMasked() == MotionEvent.ACTION_CANCEL) {
+            onTouchEnd();
+        }
         return true;
     }
 
     @Override
     public void onTouchEnd() {
         draggedNode = null;
+        transforming = false;
+        activeHandle = TransformController.NONE;
     }
 
     @Override
@@ -154,30 +168,105 @@ public class SoftCanvasView extends View implements GestureEngine.Listener {
 
     @Override
     public void onDrag(float startX, float startY, float currentX, float currentY) {
+        PointF start = transform.viewToScene(startX, startY);
         PointF current = transform.viewToScene(currentX, currentY);
 
-        if (draggedNode == null) {
-            PointF start = transform.viewToScene(startX, startY);
+        // Start a resize or rotation operation.
+        if (draggedNode == null && !transforming) {
+            SceneNode selected = selectionManager.getSelectedNode();
 
-            draggedNode = runtime.hitTest(start.x, start.y);
+            if (selected != null) {
+                int handle = transformController.hitTest(selected, start.x, start.y, transform.getScale());
 
-            if (draggedNode == null) {
-                return;
+                if (handle != TransformController.NONE) {
+                    activeHandle = handle;
+                    transforming = true;
+
+                    transformStartX = start.x;
+                    transformStartY = start.y;
+
+                    transformController.begin(selected, start.x, start.y);
+                }
             }
 
-            lastTouchSceneX = start.x;
-            lastTouchSceneY = start.y;
+            // If no handle was selected, move the element.
+            if (!transforming) {
+                draggedNode = runtime.hitTest(start.x, start.y);
+
+                if (draggedNode == null) return;
+
+                PointF startParent = runtime.scenePointToParent(
+                        draggedNode,
+                        start.x,
+                        start.y
+                );
+
+                float effectiveScale =
+                        transform.getScale() *
+                                runtime.getParentWorldScale(draggedNode);
+
+                int handle = transformController.hitTest(
+                        draggedNode,
+                        startParent.x,
+                        startParent.y,
+                        effectiveScale
+                );
+
+                if (handle != TransformController.NONE) {
+                    transforming = true;
+                    activeHandle = handle;
+
+                    transformStartX = startParent.x;
+                    transformStartY = startParent.y;
+
+                    transformController.begin(
+                            draggedNode,
+                            startParent.x,
+                            startParent.y
+                    );
+
+                    return;
+                }
+
+                lastTouchSceneX = startParent.x;
+                lastTouchSceneY = startParent.y;
+            }
         }
 
-        float deltaX = current.x - lastTouchSceneX;
-        float deltaY = current.y - lastTouchSceneY;
+        if (transforming) {
+            transformController.update(selectionManager.getSelectedNode(), activeHandle, transformStartX, transformStartY, current.x, current.y);
+            invalidate();
+            return;
+        }
 
-        interactionEngine.moveNode(draggedNode, deltaX, deltaY);
+        if (draggedNode != null) {
+            PointF currentParent = runtime.scenePointToParent(
+                    draggedNode,
+                    current.x,
+                    current.y
+            );
 
-        lastTouchSceneX = current.x;
-        lastTouchSceneY = current.y;
+            transformController.update(
+                    draggedNode,
+                    activeHandle,
+                    transformStartX,
+                    transformStartY,
+                    currentParent.x,
+                    currentParent.y
+            );
 
-        invalidate();
+            invalidate();
+
+//            float deltaX = parentCurrent.x - lastTouchSceneX;
+//            float deltaY = parentCurrent.y - lastTouchSceneY;
+//
+//            interactionEngine.moveNode(draggedNode, deltaX, deltaY);
+//
+//            lastTouchSceneX = parentCurrent.x;
+//            lastTouchSceneY = parentCurrent.y;
+//
+//            invalidate();
+        }
     }
 
     @Override
