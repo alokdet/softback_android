@@ -162,6 +162,17 @@ public class TransformController {
         startPointerAngle = (float) Math.atan2(y - cy, x - cx);
     }
 
+    /**
+     * Move a node using parent-local pointer coordinates. Always calculates from
+     * the gesture baseline, preventing cumulative drift.
+     */
+    public void updateMove(SceneNode node, float startTouchX, float startTouchY,
+                           float currentX, float currentY) {
+        if (node == null) return;
+        node.x = startX + (currentX - startTouchX);
+        node.y = startY + (currentY - startTouchY);
+    }
+
     public void update(SceneNode node, int handle, float startTouchX, float startTouchY, float currentX, float currentY) {
         if (node == null || handle == NONE) return;
 
@@ -171,7 +182,7 @@ public class TransformController {
 
             float currentAngle = (float) Math.atan2(currentY - cy, currentX - cx);
             float delta = currentAngle - startPointerAngle;
-
+            delta = (float) Math.atan2(Math.sin(delta), Math.cos(delta));
             node.rotation = startRotation + (float) Math.toDegrees(delta);
             return;
         }

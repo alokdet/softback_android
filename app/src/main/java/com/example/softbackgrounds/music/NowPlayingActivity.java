@@ -1,5 +1,6 @@
 package com.example.softbackgrounds.music;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,11 +19,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
+import com.example.softbackgrounds.GradTest;
+import com.example.softbackgrounds.LiquidBlobView;
 import com.example.softbackgrounds.R;
 import com.example.softbackgrounds.music.lyricsengine.Lyrics;
 import com.example.softbackgrounds.music.lyricsengine.LyricsLine;
 import com.example.softbackgrounds.music.lyricsengine.LyricsManager;
 import com.example.softbackgrounds.music.lyricsengine.LyricsRepository;
+import com.example.softbackgrounds.music.visualizerengine.AudioAnalysisManager;
+import com.example.softbackgrounds.music.visualizerengine.AudioGradientController;
 
 import java.io.InputStream;
 import java.util.Locale;
@@ -167,6 +172,21 @@ public class NowPlayingActivity extends AppCompatActivity {
         initializeMusicManager();
         initializeLyrics();
         initializeControls();
+
+//        AudioAnalysisManager analysisManager =
+//                AudioAnalysisManager.getInstance(this);
+//
+//        controller = new AudioGradientController(
+//                liquidBlobView,
+//                analysisManager
+//        );
+
+        albumArt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), GradTest.class));
+            }
+        });
     }
 
     // Views
@@ -184,6 +204,7 @@ public class NowPlayingActivity extends AppCompatActivity {
         currentLyric = findViewById(R.id.current_line);
         nextLyric = findViewById(R.id.next_line);
         lyricsStatus = findViewById(R.id.lyrics_status);
+        //liquidBlobView = findViewById(R.id.gradient_view);
     }
 
     // ---------------------------------------------------------
@@ -311,16 +332,10 @@ public class NowPlayingActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-
         super.onStop();
 
-        musicManager.removeListener(
-                musicListener
-        );
-
-        handler.removeCallbacks(
-                progressUpdater
-        );
+        musicManager.removeListener(musicListener);
+        handler.removeCallbacks(progressUpdater);
     }
 
     // ---------------------------------------------------------

@@ -1,6 +1,7 @@
 package com.example.softbackgrounds.music;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -8,9 +9,16 @@ import androidx.annotation.Nullable;
 import androidx.media3.common.AudioAttributes;
 import androidx.media3.common.C;
 import androidx.media3.common.Player;
+import androidx.media3.common.audio.AudioProcessor;
+import androidx.media3.exoplayer.DefaultRenderersFactory;
 import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.audio.AudioSink;
+import androidx.media3.exoplayer.audio.DefaultAudioSink;
 import androidx.media3.session.MediaSession;
 import androidx.media3.session.MediaSessionService;
+
+import com.example.softbackgrounds.music.visualizerengine.AudioAnalysisManager;
+import com.example.softbackgrounds.music.visualizerengine.AudioAnalysisProcessor;
 
 public class MusicService extends MediaSessionService {
 
