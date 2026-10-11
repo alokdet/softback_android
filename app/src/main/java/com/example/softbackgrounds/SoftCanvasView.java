@@ -40,7 +40,7 @@ public class SoftCanvasView extends View implements GestureEngine.Listener {
     public SoftCanvasView(Context context) {
         super(context);
 
-        renderer = new SceneRenderer();
+        renderer = new SceneRenderer(context);
         runtime = new SceneRuntime();
         interactionEngine = new InteractionEngine(context);
         gestureDetector = new GestureDetector(context, new GestureEngine(this));
@@ -64,7 +64,8 @@ public class SoftCanvasView extends View implements GestureEngine.Listener {
             }
         });
 
-        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        // Keep the view hardware accelerated. RenderEffect/RenderNode effects
+        // require a hardware canvas on Android 12+.
     }
 
     public void setScene(Scene scene) {

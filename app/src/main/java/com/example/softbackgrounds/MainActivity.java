@@ -70,9 +70,11 @@ public class MainActivity extends AppCompatActivity implements DesignAdapter.OnD
 
         adapter = new DesignAdapter(this);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        recyclerView.setLayoutManager(new FocusGridLayoutManager(this));
+        recyclerView.setItemAnimator(null);
+        recyclerView.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
+        //recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
 
         viewModel = new ViewModelProvider(this).get(DesignViewModel.class);
         observeDesigns();

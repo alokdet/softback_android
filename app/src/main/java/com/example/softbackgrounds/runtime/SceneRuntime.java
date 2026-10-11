@@ -132,8 +132,8 @@ public class SceneRuntime {
         float x = sceneX;
         float y = sceneY;
 
-        java.util.ArrayList<SceneNode> ancestors =
-                new java.util.ArrayList<>();
+        ArrayList<SceneNode> ancestors =
+                new ArrayList<>();
 
         SceneNode parent = parentMap.get(node);
 
